@@ -12551,7 +12551,7 @@ Keep Prob Tests Passed.
 <span class="sd">    : return: A 2-D tensor where the second dimension is num_outputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: Implement Function</span>
-    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">x_tensor</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">x_tensor</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -12826,8 +12826,8 @@ Keep Prob Tests Passed.
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: Tune Parameters</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span>
 <span class="n">keep_probability</span> <span class="o">=</span> <span class="mf">0.5</span>
 </pre></div>
 
@@ -12914,7 +12914,6 @@ Epoch  1, CIFAR-10 Batch 1:  </pre>
 
 <span class="ansi-red-fg">ResourceExhaustedError</span>: OOM when allocating tensor with shape[5000,3,33,33]
 	 [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format=&#34;NHWC&#34;, padding=&#34;SAME&#34;, strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;](_recv_x_0/_27, Variable/read)]]
-	 [[Node: accuracy/_31 = _Recv[client_terminated=false, recv_device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;, send_device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;, send_device_incarnation=1, tensor_name=&#34;edge_69_accuracy&#34;, tensor_type=DT_FLOAT, _device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;]()]]
 
 During handling of the above exception, another exception occurred:
 
@@ -12961,7 +12960,6 @@ During handling of the above exception, another exception occurred:
 
 <span class="ansi-red-fg">ResourceExhaustedError</span>: OOM when allocating tensor with shape[5000,3,33,33]
 	 [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format=&#34;NHWC&#34;, padding=&#34;SAME&#34;, strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;](_recv_x_0/_27, Variable/read)]]
-	 [[Node: accuracy/_31 = _Recv[client_terminated=false, recv_device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;, send_device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;, send_device_incarnation=1, tensor_name=&#34;edge_69_accuracy&#34;, tensor_type=DT_FLOAT, _device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;]()]]
 
 Caused by op &#39;Conv2D&#39;, defined at:
   File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/runpy.py&#34;, line 184, in _run_module_as_main
@@ -13021,7 +13019,6 @@ Caused by op &#39;Conv2D&#39;, defined at:
 
 ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[5000,3,33,33]
 	 [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format=&#34;NHWC&#34;, padding=&#34;SAME&#34;, strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;](_recv_x_0/_27, Variable/read)]]
-	 [[Node: accuracy/_31 = _Recv[client_terminated=false, recv_device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;, send_device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;, send_device_incarnation=1, tensor_name=&#34;edge_69_accuracy&#34;, tensor_type=DT_FLOAT, _device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;]()]]
 </pre>
 </div>
 </div>
@@ -13042,7 +13039,7 @@ ResourceExhaustedError (see above for traceback): OOM when allocating tensor wit
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -13074,6 +13071,165 @@ ResourceExhaustedError (see above for traceback): OOM when allocating tensor wit
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Training...
+Epoch  1, CIFAR-10 Batch 1:  </pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ResourceExhaustedError</span>                    Traceback (most recent call last)
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_do_call</span><span class="ansi-blue-fg">(self, fn, *args)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1021</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1022</span><span class="ansi-red-fg">       </span><span class="ansi-green-fg">return</span> fn<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1023</span>     <span class="ansi-green-fg">except</span> errors<span class="ansi-blue-fg">.</span>OpError <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_run_fn</span><span class="ansi-blue-fg">(session, feed_dict, fetch_list, target_list, options, run_metadata)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1003</span>                                  feed_dict<span class="ansi-blue-fg">,</span> fetch_list<span class="ansi-blue-fg">,</span> target_list<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">-&gt; 1004</span><span class="ansi-red-fg">                                  status, run_metadata)
+</span><span class="ansi-green-intense-fg ansi-bold">   1005</span> 
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/contextlib.py</span> in <span class="ansi-cyan-fg">__exit__</span><span class="ansi-blue-fg">(self, type, value, traceback)</span>
+<span class="ansi-green-intense-fg ansi-bold">     65</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 66</span><span class="ansi-red-fg">                 </span>next<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>gen<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     67</span>             <span class="ansi-green-fg">except</span> StopIteration<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/framework/errors_impl.py</span> in <span class="ansi-cyan-fg">raise_exception_on_not_ok_status</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">    468</span>           compat<span class="ansi-blue-fg">.</span>as_text<span class="ansi-blue-fg">(</span>pywrap_tensorflow<span class="ansi-blue-fg">.</span>TF_Message<span class="ansi-blue-fg">(</span>status<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 469</span><span class="ansi-red-fg">           pywrap_tensorflow.TF_GetCode(status))
+</span><span class="ansi-green-intense-fg ansi-bold">    470</span>   <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">ResourceExhaustedError</span>: OOM when allocating tensor with shape[5000,33,33,3]
+	 [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format=&#34;NHWC&#34;, padding=&#34;SAME&#34;, strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;](_recv_x_0/_27, Variable/read)]]
+	 [[Node: accuracy/_31 = _Recv[client_terminated=false, recv_device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;, send_device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;, send_device_incarnation=1, tensor_name=&#34;edge_33_accuracy&#34;, tensor_type=DT_FLOAT, _device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;]()]]
+
+During handling of the above exception, another exception occurred:
+
+<span class="ansi-red-fg">ResourceExhaustedError</span>                    Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-17-9df3032ebe9d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     17</span>                 train_neural_network<span class="ansi-blue-fg">(</span>sess<span class="ansi-blue-fg">,</span> optimizer<span class="ansi-blue-fg">,</span> keep_probability<span class="ansi-blue-fg">,</span> batch_features<span class="ansi-blue-fg">,</span> batch_labels<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     18</span>             print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;Epoch {:&gt;2}, CIFAR-10 Batch {}:  &#39;</span><span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>epoch <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> batch_i<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> end<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">---&gt; 19</span><span class="ansi-red-fg">             </span>print_stats<span class="ansi-blue-fg">(</span>sess<span class="ansi-blue-fg">,</span> batch_features<span class="ansi-blue-fg">,</span> batch_labels<span class="ansi-blue-fg">,</span> cost<span class="ansi-blue-fg">,</span> accuracy<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span> 
+<span class="ansi-green-intense-fg ansi-bold">     21</span>     <span class="ansi-red-fg"># Save Model</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-14-ee1e848c8be7&gt;</span> in <span class="ansi-cyan-fg">print_stats</span><span class="ansi-blue-fg">(session, feature_batch, label_batch, cost, accuracy)</span>
+<span class="ansi-green-intense-fg ansi-bold">     10</span>     <span class="ansi-red-fg"># TODO: Implement Function</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>     loss <span class="ansi-blue-fg">=</span> session<span class="ansi-blue-fg">.</span>run<span class="ansi-blue-fg">(</span>cost<span class="ansi-blue-fg">,</span> feed_dict <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">{</span>x<span class="ansi-blue-fg">:</span> feature_batch<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">:</span> label_batch<span class="ansi-blue-fg">,</span> keep_prob<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">---&gt; 12</span><span class="ansi-red-fg">     </span>acc <span class="ansi-blue-fg">=</span> session<span class="ansi-blue-fg">.</span>run<span class="ansi-blue-fg">(</span>accuracy<span class="ansi-blue-fg">,</span>feed_dict <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">{</span>x<span class="ansi-blue-fg">:</span> valid_features<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">:</span> valid_labels<span class="ansi-blue-fg">,</span> keep_prob<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     13</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;loss&#39;</span><span class="ansi-blue-fg">,</span> loss<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;accuracy&#39;</span><span class="ansi-blue-fg">,</span> acc<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>     <span class="ansi-green-fg">pass</span>
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">run</span><span class="ansi-blue-fg">(self, fetches, feed_dict, options, run_metadata)</span>
+<span class="ansi-green-intense-fg ansi-bold">    765</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    766</span>       result = self._run(None, fetches, feed_dict, options_ptr,
+<span class="ansi-green-fg">--&gt; 767</span><span class="ansi-red-fg">                          run_metadata_ptr)
+</span><span class="ansi-green-intense-fg ansi-bold">    768</span>       <span class="ansi-green-fg">if</span> run_metadata<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    769</span>         proto_data <span class="ansi-blue-fg">=</span> tf_session<span class="ansi-blue-fg">.</span>TF_GetBuffer<span class="ansi-blue-fg">(</span>run_metadata_ptr<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_run</span><span class="ansi-blue-fg">(self, handle, fetches, feed_dict, options, run_metadata)</span>
+<span class="ansi-green-intense-fg ansi-bold">    963</span>     <span class="ansi-green-fg">if</span> final_fetches <span class="ansi-green-fg">or</span> final_targets<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    964</span>       results = self._do_run(handle, final_targets, final_fetches,
+<span class="ansi-green-fg">--&gt; 965</span><span class="ansi-red-fg">                              feed_dict_string, options, run_metadata)
+</span><span class="ansi-green-intense-fg ansi-bold">    966</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    967</span>       results <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_do_run</span><span class="ansi-blue-fg">(self, handle, target_list, fetch_list, feed_dict, options, run_metadata)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1013</span>     <span class="ansi-green-fg">if</span> handle <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1014</span>       return self._do_call(_run_fn, self._session, feed_dict, fetch_list,
+<span class="ansi-green-fg">-&gt; 1015</span><span class="ansi-red-fg">                            target_list, options, run_metadata)
+</span><span class="ansi-green-intense-fg ansi-bold">   1016</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1017</span>       return self._do_call(_prun_fn, self._session, handle, feed_dict,
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_do_call</span><span class="ansi-blue-fg">(self, fn, *args)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1033</span>         <span class="ansi-green-fg">except</span> KeyError<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1034</span>           <span class="ansi-green-fg">pass</span>
+<span class="ansi-green-fg">-&gt; 1035</span><span class="ansi-red-fg">       </span><span class="ansi-green-fg">raise</span> type<span class="ansi-blue-fg">(</span>e<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">(</span>node_def<span class="ansi-blue-fg">,</span> op<span class="ansi-blue-fg">,</span> message<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1036</span> 
+<span class="ansi-green-intense-fg ansi-bold">   1037</span>   <span class="ansi-green-fg">def</span> _extend_graph<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">ResourceExhaustedError</span>: OOM when allocating tensor with shape[5000,33,33,3]
+	 [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format=&#34;NHWC&#34;, padding=&#34;SAME&#34;, strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;](_recv_x_0/_27, Variable/read)]]
+	 [[Node: accuracy/_31 = _Recv[client_terminated=false, recv_device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;, send_device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;, send_device_incarnation=1, tensor_name=&#34;edge_33_accuracy&#34;, tensor_type=DT_FLOAT, _device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;]()]]
+
+Caused by op &#39;Conv2D&#39;, defined at:
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/runpy.py&#34;, line 184, in _run_module_as_main
+    &#34;__main__&#34;, mod_spec)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/runpy.py&#34;, line 85, in _run_code
+    exec(code, run_globals)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/__main__.py&#34;, line 3, in &lt;module&gt;
+    app.launch_new_instance()
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/traitlets/config/application.py&#34;, line 658, in launch_instance
+    app.start()
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/kernelapp.py&#34;, line 474, in start
+    ioloop.IOLoop.instance().start()
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/zmq/eventloop/ioloop.py&#34;, line 177, in start
+    super(ZMQIOLoop, self).start()
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tornado/ioloop.py&#34;, line 887, in start
+    handler_func(fd_obj, events)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tornado/stack_context.py&#34;, line 275, in null_wrapper
+    return fn(*args, **kwargs)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/zmq/eventloop/zmqstream.py&#34;, line 440, in _handle_events
+    self._handle_recv()
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/zmq/eventloop/zmqstream.py&#34;, line 472, in _handle_recv
+    self._run_callback(callback, msg)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/zmq/eventloop/zmqstream.py&#34;, line 414, in _run_callback
+    callback(*args, **kwargs)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tornado/stack_context.py&#34;, line 275, in null_wrapper
+    return fn(*args, **kwargs)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/kernelbase.py&#34;, line 276, in dispatcher
+    return self.dispatch_shell(stream, msg)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/kernelbase.py&#34;, line 228, in dispatch_shell
+    handler(stream, idents, msg)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/kernelbase.py&#34;, line 390, in execute_request
+    user_expressions, allow_stdin)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/ipkernel.py&#34;, line 196, in do_execute
+    res = shell.run_cell(code, store_history=store_history, silent=silent)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/ipykernel/zmqshell.py&#34;, line 501, in run_cell
+    return super(ZMQInteractiveShell, self).run_cell(*args, **kwargs)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/IPython/core/interactiveshell.py&#34;, line 2717, in run_cell
+    interactivity=interactivity, compiler=compiler, result=result)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/IPython/core/interactiveshell.py&#34;, line 2821, in run_ast_nodes
+    if self.run_code(code, result):
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/IPython/core/interactiveshell.py&#34;, line 2881, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File &#34;&lt;ipython-input-12-bd418a56e27d&gt;&#34;, line 57, in &lt;module&gt;
+    logits = conv_net(x, keep_prob)
+  File &#34;&lt;ipython-input-12-bd418a56e27d&gt;&#34;, line 12, in conv_net
+    layer = conv2d_maxpool(x, 128, (2, 2), (1, 1), (2, 2), (2, 2))
+  File &#34;&lt;ipython-input-8-1149dddc7413&gt;&#34;, line 18, in conv2d_maxpool
+    layer = tf.nn.conv2d(input=x_tensor, filter=filter_weights, strides=[1, *conv_strides, 1], padding=&#39;SAME&#39;)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/ops/gen_nn_ops.py&#34;, line 396, in conv2d
+    data_format=data_format, name=name)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/framework/op_def_library.py&#34;, line 763, in apply_op
+    op_def=op_def)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/framework/ops.py&#34;, line 2395, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File &#34;/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/framework/ops.py&#34;, line 1264, in __init__
+    self._traceback = _extract_stack()
+
+ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[5000,33,33,3]
+	 [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format=&#34;NHWC&#34;, padding=&#34;SAME&#34;, strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;](_recv_x_0/_27, Variable/read)]]
+	 [[Node: accuracy/_31 = _Recv[client_terminated=false, recv_device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;, send_device=&#34;/job:localhost/replica:0/task:0/gpu:0&#34;, send_device_incarnation=1, tensor_name=&#34;edge_33_accuracy&#34;, tensor_type=DT_FLOAT, _device=&#34;/job:localhost/replica:0/task:0/cpu:0&#34;]()]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -13088,7 +13244,7 @@ ResourceExhaustedError (see above for traceback): OOM when allocating tensor wit
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -13157,6 +13313,50 @@ ResourceExhaustedError (see above for traceback): OOM when allocating tensor wit
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">OSError</span>                                   Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-18-46737803360c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     61</span> 
+<span class="ansi-green-intense-fg ansi-bold">     62</span> 
+<span class="ansi-green-fg">---&gt; 63</span><span class="ansi-red-fg"> </span>test_model<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-18-46737803360c&gt;</span> in <span class="ansi-cyan-fg">test_model</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     31</span>     <span class="ansi-green-fg">with</span> tf<span class="ansi-blue-fg">.</span>Session<span class="ansi-blue-fg">(</span>graph<span class="ansi-blue-fg">=</span>loaded_graph<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> sess<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     32</span>         <span class="ansi-red-fg"># Load model</span>
+<span class="ansi-green-fg">---&gt; 33</span><span class="ansi-red-fg">         </span>loader <span class="ansi-blue-fg">=</span> tf<span class="ansi-blue-fg">.</span>train<span class="ansi-blue-fg">.</span>import_meta_graph<span class="ansi-blue-fg">(</span>save_model_path <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39;.meta&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     34</span>         loader<span class="ansi-blue-fg">.</span>restore<span class="ansi-blue-fg">(</span>sess<span class="ansi-blue-fg">,</span> save_model_path<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     35</span> 
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/training/saver.py</span> in <span class="ansi-cyan-fg">import_meta_graph</span><span class="ansi-blue-fg">(meta_graph_or_file, clear_devices, import_scope, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1568</span>   &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">   1569</span>   <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> isinstance<span class="ansi-blue-fg">(</span>meta_graph_or_file<span class="ansi-blue-fg">,</span> meta_graph_pb2<span class="ansi-blue-fg">.</span>MetaGraphDef<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1570</span><span class="ansi-red-fg">     </span>meta_graph_def <span class="ansi-blue-fg">=</span> meta_graph<span class="ansi-blue-fg">.</span>read_meta_graph_file<span class="ansi-blue-fg">(</span>meta_graph_or_file<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1571</span>   <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1572</span>     meta_graph_def <span class="ansi-blue-fg">=</span> meta_graph_or_file
+
+<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/framework/meta_graph.py</span> in <span class="ansi-cyan-fg">read_meta_graph_file</span><span class="ansi-blue-fg">(filename)</span>
+<span class="ansi-green-intense-fg ansi-bold">    400</span>   meta_graph_def <span class="ansi-blue-fg">=</span> meta_graph_pb2<span class="ansi-blue-fg">.</span>MetaGraphDef<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    401</span>   <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> file_io<span class="ansi-blue-fg">.</span>file_exists<span class="ansi-blue-fg">(</span>filename<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 402</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">raise</span> IOError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;File %s does not exist.&#34;</span> <span class="ansi-blue-fg">%</span> filename<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    403</span>   <span class="ansi-red-fg"># First try to read it as a binary file.</span>
+<span class="ansi-green-intense-fg ansi-bold">    404</span>   file_content <span class="ansi-blue-fg">=</span> file_io<span class="ansi-blue-fg">.</span>read_file_to_string<span class="ansi-blue-fg">(</span>filename<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">OSError</span>: File ./image_classification.meta does not exist.</pre>
+</div>
+</div>
+
 </div>
 </div>
 
