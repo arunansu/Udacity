@@ -232,11 +232,11 @@ def get_init_cell(batch_size, rnn_size):
     """
     # TODO: Implement Function
     lstm_layers = 2
-    keep_prob = 0.5
+    keep_prob = 0.9
     lstm = tf.contrib.rnn.BasicLSTMCell(rnn_size)
     drop = tf.contrib.rnn.DropoutWrapper(lstm, output_keep_prob=keep_prob)
     cell = tf.contrib.rnn.MultiRNNCell([drop] * lstm_layers)
-    initial_state = cell.zero_state(batch_size, tf.int32)
+    initial_state = cell.zero_state(batch_size, tf.float32)
     initial_state = tf.identity(initial_state, name='initial_state')
     return cell, initial_state
 
@@ -261,9 +261,7 @@ def get_embed(input_data, vocab_size, embed_dim):
     :return: Embedded input.
     """
     # TODO: Implement Function
-    embedding = tf.Variable(tf.random_uniform((vocab_size, embed_dim)))
-    embed = tf.nn.embedding_lookup(embedding, input_data)
-    return embed
+    return tf.contrib.layers.embed_sequence(input_data, vocab_size, embed_dim)
 
 
 """
@@ -374,21 +372,16 @@ def get_batches(int_text, batch_size, seq_length):
     :return: Batches as a Numpy array
     """
     # TODO: Implement Function
-    n_batches = len(int_text)//(batch_size*seq_length)
-    int_text = int_text[:n_batches*batch_size*seq_length+1]
-    result=np.ndarray(shape=(n_batches,2,batch_size,seq_length), dtype=int)
-    skipdistance = n_batches*seq_length    
+    n_batches = int(len(int_text) / (batch_size * seq_length))
 
-    for b in range(n_batches):
-        batch_idx = b*seq_length
-        x , y= [], []
-        for bb in range(batch_size):
-            idx = batch_idx + (bb*skipdistance) # get starting index for batch
-            x_idx = idx
-            y_idx = idx+1          
-            result[b][0][bb] = int_text[x_idx:x_idx+seq_length]
-            result[b][1][bb] = int_text[y_idx:y_idx+seq_length]                   
-    return result
+    # Drop the last few characters to make only full batches
+    xdata = np.array(int_text[: n_batches * batch_size * seq_length])
+    ydata = np.array(int_text[1: n_batches * batch_size * seq_length + 1])
+
+    x_batches = np.split(xdata.reshape(batch_size, -1), n_batches, 1)
+    y_batches = np.split(ydata.reshape(batch_size, -1), n_batches, 1)
+
+    return np.array(list(zip(x_batches, y_batches)))
 
 
 """
@@ -566,7 +559,7 @@ tests.test_get_tensors(get_tensors)
 # ### Choose Word
 # Implement the `pick_word()` function to select the next word using `probabilities`.
 
-# In[30]:
+# In[20]:
 
 def pick_word(probabilities, int_to_vocab):
     """
@@ -576,6 +569,7 @@ def pick_word(probabilities, int_to_vocab):
     :return: String of the predicted word
     """
     # TODO: Implement Function
+    np.random.seed(10)
     return np.random.choice(list(int_to_vocab.values()), p = probabilities)
 
 
@@ -588,7 +582,7 @@ tests.test_pick_word(pick_word)
 # ## Generate TV Script
 # This will generate the TV script for you.  Set `gen_length` to the length of TV script you want to generate.
 
-# In[31]:
+# In[21]:
 
 gen_length = 200
 # homer_simpson, moe_szyslak, or Barney_Gumble
