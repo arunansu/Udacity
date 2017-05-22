@@ -12,7 +12,7 @@
 # 
 # If you're using [FloydHub](https://www.floydhub.com/), set `data_dir` to "/input" and use the [FloydHub data ID](http://docs.floydhub.com/home/using_datasets/) "R5KrjnANiKVhLWAkpXhNBe".
 
-# In[2]:
+# In[1]:
 
 data_dir = './data'
 
@@ -33,7 +33,7 @@ helper.download_extract('celeba', data_dir)
 # ### MNIST
 # As you're aware, the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset contains images of handwritten digits. You can view the first number of examples by changing `show_n_images`. 
 
-# In[3]:
+# In[2]:
 
 show_n_images = 25
 
@@ -52,7 +52,7 @@ pyplot.imshow(helper.images_square_grid(mnist_images, 'L'), cmap='gray')
 # ### CelebA
 # The [CelebFaces Attributes Dataset (CelebA)](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) dataset contains over 200,000 celebrity images with annotations.  Since you're going to be generating faces, you won't need the annotations.  You can view the first number of examples by changing `show_n_images`.
 
-# In[4]:
+# In[3]:
 
 show_n_images = 25
 
@@ -79,7 +79,7 @@ pyplot.imshow(helper.images_square_grid(mnist_images, 'RGB'))
 # ### Check the Version of TensorFlow and Access to GPU
 # This will check to make sure you have the correct version of TensorFlow and access to a GPU
 
-# In[5]:
+# In[4]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -107,7 +107,7 @@ else:
 # 
 # Return the placeholders in the following the tuple (tensor of real input images, tensor of z data)
 
-# In[6]:
+# In[5]:
 
 import problem_unittests as tests
 
@@ -136,7 +136,7 @@ tests.test_model_inputs(model_inputs)
 # ### Discriminator
 # Implement `discriminator` to create a discriminator neural network that discriminates on `images`.  This function should be able to reuse the variabes in the neural network.  Use [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope) with a scope name of "discriminator" to allow the variables to be reused.  The function should return a tuple of (tensor output of the generator, tensor logits of the generator).
 
-# In[7]:
+# In[6]:
 
 def discriminator(images, reuse=False):
     """
@@ -182,7 +182,7 @@ tests.test_discriminator(discriminator, tf)
 # ### Generator
 # Implement `generator` to generate an image using `z`. This function should be able to reuse the variabes in the neural network.  Use [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope) with a scope name of "generator" to allow the variables to be reused. The function should return the generated 28 x 28 x `out_channel_dim` images.
 
-# In[8]:
+# In[7]:
 
 def generator(z, out_channel_dim, is_train=True):
     """
@@ -233,7 +233,7 @@ tests.test_generator(generator, tf)
 # - `discriminator(images, reuse=False)`
 # - `generator(z, out_channel_dim, is_train=True)`
 
-# In[9]:
+# In[8]:
 
 def model_loss(input_real, input_z, out_channel_dim):
     """
@@ -268,7 +268,7 @@ tests.test_model_loss(model_loss)
 # ### Optimization
 # Implement `model_opt` to create the optimization operations for the GANs. Use [`tf.trainable_variables`](https://www.tensorflow.org/api_docs/python/tf/trainable_variables) to get all the trainable variables.  Filter the variables with names that are in the discriminator and generator scope names.  The function should return a tuple of (discriminator training operation, generator training operation).
 
-# In[10]:
+# In[9]:
 
 def model_opt(d_loss, g_loss, learning_rate, beta1):
     """
@@ -301,7 +301,7 @@ tests.test_model_opt(model_opt, tf)
 # ### Show Output
 # Use this function to show the current output of the generator during training. It will help you determine how well the GANs is training.
 
-# In[11]:
+# In[10]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -397,7 +397,7 @@ def train(epoch_count, batch_size, z_dim, learning_rate, beta1, get_batches, dat
                 if steps % 100 == 0:
                     show_generator_output(sess, 10, input_z, depth, data_image_mode)
                     
-        saver.save(sess, './checkpoints/generator.ckpt')
+        #saver.save(sess, './checkpoints/generator.ckpt')
     return losses
 
 
@@ -406,9 +406,9 @@ def train(epoch_count, batch_size, z_dim, learning_rate, beta1, get_batches, dat
 
 # In[14]:
 
-batch_size = 200
-z_dim = 500
-learning_rate = 0.0046
+batch_size = 256
+z_dim = 100
+learning_rate = 0.0002
 beta1 = 0.3
 
 
@@ -428,9 +428,9 @@ with tf.Graph().as_default():
 
 # In[15]:
 
-batch_size = 200
-z_dim = 500
-learning_rate = 0.0046
+batch_size = 256
+z_dim = 100
+learning_rate = 0.0002
 beta1 = 0.3
 
 
