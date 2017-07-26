@@ -9,10 +9,37 @@ class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
 
+def heuristic(game, player, factor=1):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    if (game.move_count < factor):
+        location = game.get_player_location(player)
+        opponent_moves = game.get_legal_moves(game.get_opponent(player))
+
+        if (location[0] >= 2 and location[0] < game.height - 2) and\
+            (location[1] >= 2 and location[1] < game.width - 2):
+            return float(100 - len(opponent_moves))
+        else:
+            my_moves = game.get_legal_moves(player)
+            common_moves = set(my_moves).intersection(set(opponent_moves))
+            return float(len(my_moves) - factor*len(opponent_moves)) + factor * len(common_moves)
+    else:
+        my_moves = game.get_legal_moves(player)
+        opponent_moves = game.get_legal_moves(game.get_opponent(player))
+        common_moves = set(my_moves).intersection(set(opponent_moves))
+        return float(len(my_moves) - factor*len(opponent_moves)) + factor * len(common_moves)
+
 
 def custom_score(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
+
+    Return a score for game and player based on the stage of the game, my moves,
+        oponent moves (with weight) and moves targeting the center of the board.
 
     This should be the best heuristic function for your project submission.
 
@@ -35,13 +62,16 @@ def custom_score(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    return heuristic(game, player, 4)
 
 
 def custom_score_2(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
 
+    Returns a score for a game state and player based on his moves and
+    opponent moves
+
     Note: this function should be called from within a Player instance as
     `self.score()` -- you should not need to call this function directly.
 
@@ -61,13 +91,16 @@ def custom_score_2(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    return heuristic(game, player, 2)
 
 
 def custom_score_3(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
 
+    Returns a score for a game and player based on the intersection of player
+    legal moves and opponent legal moves.
+
     Note: this function should be called from within a Player instance as
     `self.score()` -- you should not need to call this function directly.
 
@@ -87,7 +120,7 @@ def custom_score_3(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    return heuristic(game, player, 3)
 
 
 class IsolationPlayer:
@@ -213,7 +246,66 @@ class MinimaxPlayer(IsolationPlayer):
             raise SearchTimeout()
 
         # TODO: finish this function!
-        raise NotImplementedError
+        # keeps dfs visited path
+        path = []
+        score, path = self.minimax_max_value(game, depth, path)
+
+        # return first node of the path
+        return path[0]
+
+    def minimax_max_value(self, game, depth, path):
+        # Auxiliary for max nodes
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if depth == 0:
+            # Returns score
+            return self.score(game, self), path
+
+        candidate = (float("-inf"), [(-1, -1)])
+
+        #Get possible moves
+        possible_moves = game.get_legal_moves(game.active_player)
+
+        for move in possible_moves:
+            # Tries each move
+            forecast_game = game.forecast_move(move)
+
+            # Gets move score and path (recursion)
+            move_score = self.minimax_min_value(forecast_game, depth - 1, path)[0]
+
+            # If it better keeps
+            if move_score > candidate[0]:
+                candidate = (move_score, path + [move])
+
+        return candidate
+
+    def minimax_min_value(self, game, depth, path):
+        # Auxiliary for min nodes
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if depth == 0:
+            return self.score(game, self), path
+
+        candidate = (float("inf"), [(-1, -1)])
+        # Get possible moves
+        possible_moves = game.get_legal_moves(game.active_player)
+
+        for move in possible_moves:
+            # Tries each move
+            forecast_game = game.forecast_move(move)
+
+            # Gets move score and path (recursion)
+            move_score = self.minimax_max_value(forecast_game, depth - 1, path)[0]
+
+            # If it better keeps
+            if move_score < candidate[0]:
+                candidate = (move_score, move)
+
+        return candidate
+
+
 
 
 class AlphaBetaPlayer(IsolationPlayer):
@@ -255,7 +347,28 @@ class AlphaBetaPlayer(IsolationPlayer):
         self.time_left = time_left
 
         # TODO: finish this function!
-        raise NotImplementedError
+        # Perform any required initializations, including selecting an initial
+        # move from the game board (i.e., an opening book), or returning
+        # immediately if there are no legal moves
+        best_move = (-1,-1)
+
+        try:
+            # The search method call (alpha beta or minimax) should happen in
+            # here in order to avoid timeout. The try/except block will
+            # automatically catch the exception raised by the search method
+            # when the timer gets close to expiring
+
+            depth = 1
+
+            while (True):
+                best_move = self.alphabeta(game, depth)
+                depth = depth+1
+
+        except SearchTimeout:
+            pass
+
+        # Return the best move from the last completed search iteration
+        return best_move
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf")):
         """Implement depth-limited minimax search with alpha-beta pruning as
@@ -306,4 +419,71 @@ class AlphaBetaPlayer(IsolationPlayer):
             raise SearchTimeout()
 
         # TODO: finish this function!
-        raise NotImplementedError
+        path = []
+        # keeps dfs visited path
+        value, path = self.alphabeta_max_value(game,depth, path, alpha, beta)
+
+        if len(path) == 0:
+            return (-1,-1)
+
+        # returns score and first visit of path
+        return path[0]
+
+    def alphabeta_max_value(self, game, depth, path, alpha=float("-inf"), beta=float("inf")):
+
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if depth == 0:
+            return self.score(game, self), path
+
+        candidate = (float("-inf"), [(-1,-1)])
+        possible_moves = game.get_legal_moves(game.active_player)
+
+        for move in possible_moves:
+            # Tries each move
+            forecast_game = game.forecast_move(move)
+
+            move_score = self.alphabeta_min_value(forecast_game, depth-1, path, alpha, beta)[0]
+
+            # If it better keeps
+            if move_score > candidate[0]:
+                candidate = (move_score, path+[move])
+
+            #pruning
+            if move_score >= beta:
+                return move_score, path+[move]
+
+            alpha = max(alpha,move_score)
+
+        return candidate
+
+    def alphabeta_min_value(self, game, depth, path, alpha=float("-inf"), beta=float("inf")):
+
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if depth == 0:
+            return self.score(game, self), path
+
+        candidate = (float("inf"),[(-1,-1)])
+        possible_moves = game.get_legal_moves(game.active_player)
+
+        for move in possible_moves:
+            # Tries each move
+            forecast_game = game.forecast_move(move)
+
+            move_score = self.alphabeta_max_value(forecast_game, depth - 1, path, alpha, beta)[0]
+
+            # If it better keeps
+            if move_score < candidate[0]:
+                candidate = (move_score,move)
+
+            # pruning
+            if candidate[0] <= alpha:
+                return move_score,path+[move]
+
+            beta = min(beta, move_score)
+
+        return candidate
+
