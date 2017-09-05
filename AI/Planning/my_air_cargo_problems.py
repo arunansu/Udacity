@@ -173,17 +173,17 @@ class AirCargoProblem(Problem):
         new_state = FluentState([], [])
         for fluent in prev_state.pos:
             if fluent not in action.effect_rem:
-                next_state.pos.append(fluent)
+                new_state.pos.append(fluent)
         for fluent in prev_state.neg:
             if fluent not in action.effect_add:
-                next_state.neg.append(fluent)
+                new_state.neg.append(fluent)
 
         for fluent in action.effect_add:
-            if fluent not in next_state.pos:
-                next_state.pos.append(fluent)
+            if fluent not in new_state.pos:
+                new_state.pos.append(fluent)
         for fluent in action.effect_rem:
-            if fluent not in next_state.neg:
-                next_state.neg.append(fluent)
+            if fluent not in new_state.neg:
+                new_state.neg.append(fluent)
         return encode_state(new_state, self.state_map)
 
     def goal_test(self, state: str) -> bool:
