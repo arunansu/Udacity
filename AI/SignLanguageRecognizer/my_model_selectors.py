@@ -67,6 +67,13 @@ class SelectorBIC(ModelSelector):
     http://www2.imm.dtu.dk/courses/02433/doc/ch6_slides.pdf
     Bayesian information criteria: BIC = -2 * logL + p * logN
     """
+    def bic_score(self, n):
+        model = self.base_model(n)
+        logL = model.score(self.X, self.lengths)
+        logN = np.log(len(self.X))
+        d = model.n_features
+        p = n ** 2 + 2 * d * n - 1
+        return -2.0 * logL + p * logN, model
 
     def select(self):
         """ select the best model for self.this_word based on
@@ -77,19 +84,18 @@ class SelectorBIC(ModelSelector):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
         # TODO implement model selection based on BIC scores
-        bic_scores = []
         try:
-            for n in self.n_components:
-                model = self.base_model(n)
-                log_l = model.score(self.X, self.lengths)
-                p = n ** 2 + 2 * n * model.n_features - 1
-                bic_score = -2 * log_l + p * math.log(n)
-                bic_scores.append(bic_score)
-        except Exception as e:
-            pass
+            best_score = float("Inf") 
+            best_model = None
 
-        states = self.n_components[np.argmax(bic_scores)] if bic_scores else self.n_constant
-        return self.base_model(states)
+            for n in range(self.min_n_components, self.max_n_components + 1):
+                score, model = self.bic_score(n)
+                if score < best_score:
+                    best_score, best_model = score, model
+            return best_model
+
+        except:
+            return self.base_model(self.n_constant)
 
 
 class SelectorDIC(ModelSelector):
@@ -98,59 +104,61 @@ class SelectorDIC(ModelSelector):
     Biem, Alain. "A model selection criterion for classification: Application to hmm topology optimization."
     Document Analysis and Recognition, 2003. Proceedings. Seventh International Conference on. IEEE, 2003.
     http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.58.6208&rep=rep1&type=pdf
+    https://pdfs.semanticscholar.org/ed3d/7c4a5f607201f3848d4c02dd9ba17c791fc2.pdf
     DIC = log(P(X(i)) - 1/(M-1)SUM(log(P(X(all but i))
     '''
+    def dic_score(self, n):
+        model = self.base_model(n)
+        scores = []
+        for word, (X, lengths) in self.hwords.items():
+            if word != self.this_word:
+                scores.append(model.score(X, lengths))
+        return model.score(self.X, self.lengths) - np.mean(scores), model
 
     def select(self):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
         # TODO implement model selection based on DIC scores
-        dic_scores = []
-        logs_l = []
         try:
-            for n_component in self.n_components:
-                model = self.base_model(n_component)
-                logs_l.append(model.score(self.X, self.lengths))
-            sum_logs_l = sum(logs_l)
-            m = len(self.n_components)
-            for log_l in logs_l:
-                # DIC = log(P(X(i)) - 1/(M-1)SUM(log(P(X(all but i))
-                other_words_likelihood = (sum_logs_l - log_l) / (m - 1)
-                dic_scores.append(log_l - other_words_likelihood)
-        except Exception as e:
-            pass
+            best_score = float("-Inf")
+            best_model = None
+            for n in range(self.min_n_components, self.max_n_components+1):
+                score, model = self.dic_score(n)
+                if score > best_score:
+                    best_score = score
+                    best_model = model
+            return best_model   
 
-        states = self.n_components[np.argmax(dic_scores)] if dic_scores else self.n_constant
-        return self.base_model(states)
+        except:
+            return self.base_model(self.n_constant)
 
 
 class SelectorCV(ModelSelector):
     ''' select best model based on average log Likelihood of cross-validation folds
 
     '''
+    def cv_score(self, n):
+        scores = []
+        split_method = KFold(n_splits=2)
+        for train_idx, test_idx in split_method.split(self.sequences):
+            self.X, self.lengths = combine_sequences(train_idx, self.sequences)
+            model = self.base_model(n)
+            X, l = combine_sequences(test_idx, self.sequences)
+            scores.append(model.score(X, l))
+        return np.mean(scores), model
 
     def select(self):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
         # TODO implement model selection using CV
-        mean_scores = []
-        # Save reference to 'KFold' in variable as shown in notebook
-        split_method = KFold()
         try:
-            for n_component in self.n_components:
-                model = self.base_model(n_component)
-                # Fold and calculate model mean scores
-                fold_scores = []
-                for _, test_idx in split_method.split(self.sequences):
-                    # Get test sequences
-                    test_X, test_length = combine_sequences(test_idx, self.sequences)
-                    # Record each model score
-                    fold_scores.append(model.score(test_X, test_length))
-
-                # Compute mean of all fold scores
-                mean_scores.append(np.mean(fold_scores))
-        except Exception as e:
-            pass
-
-        states = self.n_components[np.argmax(mean_scores)] if mean_scores else self.n_constant
-        return self.base_model(states)
+            best_score = float("Inf")
+            best_model = None
+            for n in range(self.min_n_components, self.max_n_components+1):
+                score, model = self.cv_score(n)
+                if score < best_score:
+                    best_score = score
+                    best_model = model
+            return best_model
+        except:
+            return self.base_model(self.n_constant)
