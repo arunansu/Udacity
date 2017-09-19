@@ -152,11 +152,11 @@ class SelectorCV(ModelSelector):
 
         # TODO implement model selection using CV
         try:
-            best_score = float("Inf")
+            best_score = float("-Inf")
             best_model = None
             for n in range(self.min_n_components, self.max_n_components+1):
                 score, model = self.cv_score(n)
-                if score < best_score:
+                if score > best_score:
                     best_score = score
                     best_model = model
             return best_model
